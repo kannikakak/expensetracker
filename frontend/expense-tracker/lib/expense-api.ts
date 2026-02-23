@@ -8,7 +8,9 @@ type ApiExpense = {
   date: string;
 };
 
-const fallbackApiBaseUrl = "http://localhost:8080";
+const fallbackApiBaseUrl = process.env.NODE_ENV === "development"
+  ? "http://localhost:8080"
+  : "https://expense-backend-latest-ze9i.onrender.com";
 
 const apiBaseUrl = (
   process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || fallbackApiBaseUrl
