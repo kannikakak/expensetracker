@@ -1,11 +1,7 @@
 name: Backend CD (Render)
 
 on:
-  workflow_run:
-    workflows:
-      - Backend Build & Push (GHCR)
-    types:
-      - completed
+  workflow_call:
   workflow_dispatch:
 
 permissions:
@@ -13,7 +9,6 @@ permissions:
 
 jobs:
   deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:

@@ -7,6 +7,7 @@ on:
     paths:
       - "backend/**"
       - ".github/workflows/backend-ghcr.yml"
+      - ".github/workflows/backend-cd-render.yml"
   workflow_dispatch:
 
 permissions:
@@ -45,3 +46,9 @@ jobs:
           -Djib.to.tags=${GITHUB_SHA},latest
           -Djib.to.auth.username=${GITHUB_ACTOR}
           -Djib.to.auth.password=${{ secrets.GITHUB_TOKEN }}
+
+  deploy-render:
+    name: Deploy to Render
+    needs: build-and-push
+    uses: ./.github/workflows/backend-cd-render.yml
+    secrets: inherit
