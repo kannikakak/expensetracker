@@ -167,6 +167,11 @@ select {
   background: var(--accent-hover);
 }
 
+.primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .filter-control {
   max-width: 280px;
 }
@@ -283,6 +288,18 @@ select {
 
 .empty-state {
   color: var(--text-muted);
+}
+
+.status-banner {
+  border-radius: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+}
+
+.status-banner-error {
+  border: 1px solid #f0c0c0;
+  background: #fff4f4;
+  color: #9f2d2d;
 }
 
 @media (max-width: 920px) {

@@ -8,7 +8,8 @@ import {
 } from "@/types/expense";
 
 type AddExpenseFormProps = {
-  onAddExpense: (expense: ExpenseInput) => void;
+  onAddExpense: (expense: ExpenseInput) => Promise<boolean>;
+  isSubmitting: boolean;
 };
 
 const initialState: ExpenseInput = {
@@ -18,30 +19,32 @@ const initialState: ExpenseInput = {
   date: new Date().toISOString().slice(0, 10)
 };
 
-export function AddExpenseForm({ onAddExpense }: AddExpenseFormProps) {
+export function AddExpenseForm({ onAddExpense, isSubmitting }: AddExpenseFormProps) {
   const [title, setTitle] = useState(initialState.title);
   const [amount, setAmount] = useState(initialState.amount);
   const [category, setCategory] = useState<ExpenseCategory>(initialState.category);
   const [date, setDate] = useState(initialState.date);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title.trim() || amount <= 0 || !date) {
       return;
     }
 
-    onAddExpense({
+    const success = await onAddExpense({
       title: title.trim(),
       amount,
       category,
       date
     });
 
-    setTitle("");
-    setAmount(0);
-    setCategory("Food");
-    setDate(new Date().toISOString().slice(0, 10));
+    if (success) {
+      setTitle("");
+      setAmount(0);
+      setCategory("Food");
+      setDate(new Date().toISOString().slice(0, 10));
+    }
   };
 
   return (
@@ -55,6 +58,7 @@ export function AddExpenseForm({ onAddExpense }: AddExpenseFormProps) {
           <span>Title</span>
           <input
             required
+            disabled={isSubmitting}
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Groceries"
@@ -69,6 +73,7 @@ export function AddExpenseForm({ onAddExpense }: AddExpenseFormProps) {
             type="number"
             min="0.01"
             step="0.01"
+            disabled={isSubmitting}
             value={amount === 0 ? "" : amount}
             onChange={(event) => setAmount(Number(event.target.value))}
             placeholder="25.50"
@@ -79,6 +84,7 @@ export function AddExpenseForm({ onAddExpense }: AddExpenseFormProps) {
           <label className="field">
             <span>Category</span>
             <select
+              disabled={isSubmitting}
               value={category}
               onChange={(event) =>
                 setCategory(event.target.value as ExpenseCategory)
@@ -97,14 +103,15 @@ export function AddExpenseForm({ onAddExpense }: AddExpenseFormProps) {
             <input
               required
               type="date"
+              disabled={isSubmitting}
               value={date}
               onChange={(event) => setDate(event.target.value)}
             />
           </label>
         </div>
 
-        <button type="submit" className="primary-button">
-          Add Expense
+        <button type="submit" className="primary-button" disabled={isSubmitting}>
+          {isSubmitting ? "Adding..." : "Add Expense"}
         </button>
       </form>
     </section>
