@@ -1,0 +1,47 @@
+name: Backend Build & Push (GHCR)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ghcr.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: backend-ghcr-main
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Test backend
+        run: mvn -B -f backend/pom.xml verify
+
+      - name: Normalize GHCR image name
+        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/expense-backend" >> "$GITHUB_ENV"
+
+      - name: Build and push image with Jib
+        run: >
+          mvn -B -f backend/pom.xml jib:build -DskipTests
+          -Djib.to.image=${IMAGE_NAME}
+          -Djib.to.tags=${GITHUB_SHA},latest
+          -Djib.to.auth.username=${GITHUB_ACTOR}
+          -Djib.to.auth.password=${{ secrets.GITHUB_TOKEN }}
