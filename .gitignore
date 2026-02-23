@@ -3,6 +3,7 @@ node_modules/
 frontend/expense-tracker/node_modules/
 frontend/expense-tracker/.next/
 frontend/expense-tracker/out/
+backend/target/
 
 # Logs
 npm-debug.log*
