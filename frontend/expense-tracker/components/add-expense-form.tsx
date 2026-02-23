@@ -45,10 +45,10 @@ export function AddExpenseForm({ onAddExpense }: AddExpenseFormProps) {
   };
 
   return (
-    <section className="card add-card">
+    <section className="card">
       <div className="card-title-row">
         <h2>Add Expense</h2>
-        <p>Capture spend instantly</p>
+        <p>Title, amount, category, date</p>
       </div>
       <form className="expense-form" onSubmit={handleSubmit}>
         <label className="field">
