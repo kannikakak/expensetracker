@@ -15,7 +15,7 @@ public class WebCorsConfig implements WebMvcConfigurer {
   public WebCorsConfig(@Value("${FRONTEND_ORIGIN:http://localhost:3000}") String frontendOrigins) {
     this.allowedOrigins = Stream.concat(
       Arrays.stream(frontendOrigins.split(",")),
-      Stream.of("http://localhost:3000")
+      Stream.of("http://localhost:3000", "https://*.vercel.app")
     )
       .map(String::trim)
       .filter(value -> !value.isEmpty())
@@ -26,7 +26,7 @@ public class WebCorsConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/api/**")
-      .allowedOrigins(allowedOrigins)
+      .allowedOriginPatterns(allowedOrigins)
       .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
       .allowedHeaders("*")
       .maxAge(3600);
