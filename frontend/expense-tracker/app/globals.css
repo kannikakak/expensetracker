@@ -78,6 +78,65 @@ body {
   font-size: 1.05rem;
 }
 
+.expense-form {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.55rem;
+  padding: 0.55rem 0.65rem;
+  font: inherit;
+  color: inherit;
+  background: #ffffff;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: 2px solid #c2deed;
+  border-color: #8dc0da;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+
+@media (min-width: 620px) {
+  .field-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.primary-button {
+  border: 0;
+  border-radius: 0.6rem;
+  padding: 0.65rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #0f4c6b;
+}
+
 .total {
   margin: 0 0 1rem;
   font-size: 2rem;
