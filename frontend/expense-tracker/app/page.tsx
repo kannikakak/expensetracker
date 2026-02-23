@@ -2,17 +2,32 @@
 
 import { useMemo, useState } from "react";
 import { AddExpenseForm } from "@/components/add-expense-form";
+import { ExpenseFilters } from "@/components/expense-filters";
 import { ExpenseList } from "@/components/expense-list";
 import { ExpenseSummary } from "@/components/expense-summary";
 import { mockExpenses } from "@/data/mock-expenses";
-import { ExpenseInput } from "@/types/expense";
+import { ExpenseCategory, ExpenseInput } from "@/types/expense";
 
 export default function HomePage() {
   const [expenses, setExpenses] = useState(mockExpenses);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] =
+    useState<ExpenseCategory | "All">("All");
+
+  const filteredExpenses = useMemo(() => {
+    return expenses.filter((expense) => {
+      const normalizedSearch = searchTerm.trim().toLowerCase();
+      const titleMatches = expense.title.toLowerCase().includes(normalizedSearch);
+      const categoryMatches =
+        selectedCategory === "All" || expense.category === selectedCategory;
+
+      return titleMatches && categoryMatches;
+    });
+  }, [expenses, searchTerm, selectedCategory]);
 
   const sortedExpenses = useMemo(() => {
-    return [...expenses].sort((a, b) => b.date.localeCompare(a.date));
-  }, [expenses]);
+    return [...filteredExpenses].sort((a, b) => b.date.localeCompare(a.date));
+  }, [filteredExpenses]);
 
   const handleAddExpense = (expenseInput: ExpenseInput) => {
     const nextExpense = {
@@ -39,6 +54,12 @@ export default function HomePage() {
       </header>
 
       <AddExpenseForm onAddExpense={handleAddExpense} />
+      <ExpenseFilters
+        searchTerm={searchTerm}
+        selectedCategory={selectedCategory}
+        onSearchChange={setSearchTerm}
+        onCategoryChange={setSelectedCategory}
+      />
 
       <div className="grid">
         <ExpenseSummary expenses={sortedExpenses} />
