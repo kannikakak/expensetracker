@@ -173,6 +173,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.7rem;
   padding: 0.7rem;
   border-radius: 0.65rem;
   background: #fafbfc;
@@ -188,4 +189,30 @@ body {
   margin: 0.2rem 0 0;
   color: var(--muted);
   font-size: 0.86rem;
+}
+
+.expense-actions {
+  display: grid;
+  justify-items: end;
+  gap: 0.25rem;
+}
+
+.danger-button {
+  border: 0;
+  background: transparent;
+  color: #b63b3b;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.danger-button:hover {
+  color: #8c2525;
+}
+
+.empty-state {
+  margin: 0;
+  color: var(--muted);
+  padding: 0.55rem 0;
 }

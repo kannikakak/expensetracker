@@ -23,6 +23,10 @@ export default function HomePage() {
     setExpenses((current) => [nextExpense, ...current]);
   };
 
+  const handleDeleteExpense = (id: string) => {
+    setExpenses((current) => current.filter((item) => item.id !== id));
+  };
+
   return (
     <main className="container">
       <header className="hero">
@@ -38,7 +42,10 @@ export default function HomePage() {
 
       <div className="grid">
         <ExpenseSummary expenses={sortedExpenses} />
-        <ExpenseList expenses={sortedExpenses} />
+        <ExpenseList
+          expenses={sortedExpenses}
+          onDeleteExpense={handleDeleteExpense}
+        />
       </div>
     </main>
   );
