@@ -13,23 +13,30 @@ const currency = new Intl.NumberFormat("en-US", {
 export function ExpenseList({ expenses, onDeleteExpense }: ExpenseListProps) {
   if (expenses.length === 0) {
     return (
-      <section className="card">
-        <h2>Recent Expenses</h2>
+      <section className="card activity-card">
+        <div className="card-title-row">
+          <h2>Recent Activity</h2>
+          <p>0 records</p>
+        </div>
         <p className="empty-state">No expenses yet. Add your first expense above.</p>
       </section>
     );
   }
 
   return (
-    <section className="card">
-      <h2>Recent Expenses</h2>
+    <section className="card activity-card">
+      <div className="card-title-row">
+        <h2>Recent Activity</h2>
+        <p>{expenses.length} records</p>
+      </div>
       <ul className="expense-list">
         {expenses.map((expense) => (
           <li key={expense.id} className="expense-item">
-            <div>
+            <div className="expense-detail">
               <p className="expense-title">{expense.title}</p>
               <p className="expense-meta">
-                {expense.category} | {expense.date}
+                <span className="category-pill">{expense.category}</span>
+                <span>{expense.date}</span>
               </p>
             </div>
             <div className="expense-actions">

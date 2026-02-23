@@ -16,15 +16,18 @@ export function ExpenseFilters({
   onCategoryChange
 }: ExpenseFiltersProps) {
   return (
-    <section className="card">
-      <h2>Filters</h2>
-      <div className="field-row">
+    <section className="card filters-card">
+      <div className="card-title-row">
+        <h2>Find Transactions</h2>
+        <p>Filter by text or category</p>
+      </div>
+      <div className="field-row filters-row">
         <label className="field">
-          <span>Search by title</span>
+          <span>Search title</span>
           <input
             value={searchTerm}
             onChange={(event) => onSearchChange(event.target.value)}
-            placeholder="Search expense title..."
+            placeholder="Search groceries, rent, internet..."
             maxLength={60}
           />
         </label>
