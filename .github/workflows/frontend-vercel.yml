@@ -40,6 +40,14 @@ jobs:
             npm install
           fi
 
+      - name: Set frontend API base URL
+        run: |
+          if [ -n "${{ secrets.NEXT_PUBLIC_API_BASE_URL }}" ]; then
+            echo "NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}" >> "$GITHUB_ENV"
+          else
+            echo "NEXT_PUBLIC_API_BASE_URL=https://expense-backend-latest-ze9i.onrender.com" >> "$GITHUB_ENV"
+          fi
+
       - name: Build Next.js app
         run: npm run build
 
