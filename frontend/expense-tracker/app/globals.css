@@ -71,6 +71,7 @@ body {
   border-radius: 0.9rem;
   padding: 1rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  animation: fade-up 240ms ease both;
 }
 
 .card h2 {
@@ -246,4 +247,52 @@ body {
   margin: 0;
   color: var(--muted);
   padding: 0.55rem 0;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1.4rem 0.8rem 2rem;
+  }
+
+  .card {
+    padding: 0.85rem;
+  }
+
+  .hero h1 {
+    margin-top: 0.3rem;
+    font-size: 1.5rem;
+  }
+
+  .expense-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .expense-actions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (min-width: 960px) {
+  .container {
+    padding-top: 2.4rem;
+  }
+
+  .card {
+    padding: 1.1rem;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
