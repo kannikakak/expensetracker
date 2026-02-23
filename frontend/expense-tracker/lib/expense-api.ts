@@ -8,13 +8,7 @@ type ApiExpense = {
   date: string;
 };
 
-const fallbackApiBaseUrl = process.env.NODE_ENV === "development"
-  ? "http://localhost:8080"
-  : "https://expense-backend-latest-ze9i.onrender.com";
-
-const apiBaseUrl = (
-  process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || fallbackApiBaseUrl
-).replace(/\/+$/, "");
+const apiBasePath = "/backend-api";
 
 const toExpense = (value: ApiExpense): Expense => ({
   id: value.id,
@@ -25,7 +19,7 @@ const toExpense = (value: ApiExpense): Expense => ({
 });
 
 const requestJson = async <T>(path: string, init?: RequestInit): Promise<T> => {
-  const response = await fetch(`${apiBaseUrl}${path}`, init);
+  const response = await fetch(`${apiBasePath}${path}`, init);
 
   if (!response.ok) {
     let message = `Request failed: ${response.status}`;
@@ -44,12 +38,12 @@ const requestJson = async <T>(path: string, init?: RequestInit): Promise<T> => {
 };
 
 export const listExpenses = async (): Promise<Expense[]> => {
-  const payload = await requestJson<ApiExpense[]>("/api/expenses");
+  const payload = await requestJson<ApiExpense[]>("/expenses");
   return payload.map(toExpense);
 };
 
 export const createExpense = async (input: ExpenseInput): Promise<Expense> => {
-  const payload = await requestJson<ApiExpense>("/api/expenses", {
+  const payload = await requestJson<ApiExpense>("/expenses", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -61,7 +55,7 @@ export const createExpense = async (input: ExpenseInput): Promise<Expense> => {
 };
 
 export const deleteExpense = async (id: string): Promise<void> => {
-  const response = await fetch(`${apiBaseUrl}/api/expenses/${id}`, {
+  const response = await fetch(`${apiBasePath}/expenses/${id}`, {
     method: "DELETE"
   });
 

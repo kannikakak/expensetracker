@@ -35,10 +35,12 @@ export default function HomePage() {
           setExpenses(payload);
           setStatusMessage(null);
         }
-      } catch {
+      } catch (error) {
         if (isMounted) {
+          const detail =
+            error instanceof Error ? ` (${error.message})` : "";
           setStatusMessage(
-            "Could not load expenses from backend. Set NEXT_PUBLIC_API_BASE_URL and ensure backend is running."
+            `Could not load expenses from backend${detail}. Check backend deployment and NEXT_PUBLIC_API_BASE_URL.`
           );
         }
       } finally {
@@ -62,8 +64,9 @@ export default function HomePage() {
       setExpenses((current) => [createdExpense, ...current]);
       setStatusMessage(null);
       return true;
-    } catch {
-      setStatusMessage("Could not add expense. Please try again.");
+    } catch (error) {
+      const detail = error instanceof Error ? ` (${error.message})` : "";
+      setStatusMessage(`Could not add expense${detail}. Please try again.`);
       return false;
     } finally {
       setIsSaving(false);
@@ -76,8 +79,9 @@ export default function HomePage() {
         await deleteExpense(id);
         setExpenses((current) => current.filter((item) => item.id !== id));
         setStatusMessage(null);
-      } catch {
-        setStatusMessage("Could not delete expense. Please try again.");
+      } catch (error) {
+        const detail = error instanceof Error ? ` (${error.message})` : "";
+        setStatusMessage(`Could not delete expense${detail}. Please try again.`);
       }
     })();
   };
